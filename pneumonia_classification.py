@@ -6,11 +6,13 @@ import keras
 import tensorflow as tf
 from keras.datasets import mnist
 from keras.models import Sequential
-from keras.layers import Dense, Dropout, Flatten, Conv2D, MaxPooling2D, Rescaling, BatchNormalization
+from keras.layers import Dense, Dropout, Flatten, Conv2D, MaxPooling2D, Rescaling, BatchNormalization, GlobalAveragePooling2D
 from keras.optimizers import RMSprop,Adam
+from keras.callbacks import EarlyStopping, ReduceLROnPlateau
+# from sklearn.metrics import classification_report
 import matplotlib.pyplot as plt
 import numpy as np
-
+import time
 
 batch_size = 12
 num_classes = 3
@@ -78,13 +80,18 @@ with tf.device('/gpu:0'):
     #earlystop_callback = tf.keras.callbacks.EarlyStopping(monitor='val_loss',patience=5)
     save_callback = tf.keras.callbacks.ModelCheckpoint("pneumonia.keras",save_freq='epoch',save_best_only=True)
 
+#q1
     if fit:
+        start_time = time.time()
+
         history = model.fit(
             train_ds,
             batch_size=batch_size,
             validation_data=val_ds,
             callbacks=[save_callback],
             epochs=epochs)
+        
+        print("Training Time: ", time.time() - start_time)
     else:
         model = tf.keras.models.load_model("pneumonia.keras")
 
