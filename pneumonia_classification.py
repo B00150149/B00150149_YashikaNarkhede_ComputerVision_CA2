@@ -96,7 +96,7 @@ with tf.device('/gpu:0'):
         
         end_time = time.time()
         elapsed = end_time - start_time
-        print('\nTraining time: {elapsed:.1f}s ({elapsed/60:.1f} minutes)')
+        print(f'\nTraining time: {elapsed:.1f}s ({elapsed/60:.1f} minutes)')
    
     else:
         model = tf.keras.models.load_model("pneumonia.keras")
